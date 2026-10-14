@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Clip pipeline</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#0f766e}a:hover{color:#0a4f4a}
+button{font:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="background: #f6f7f7; color: #17191c; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; min-height: 960px; display: flex; flex-direction: column">
+
+<header style="background: #ffffff; border-bottom: 1px solid #e4e6e8; padding: 16px 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px">
+<strong style="font-size: 20px; letter-spacing: -0.02em">ClipForge</strong>
+<div style="flex: 1 1 420px; min-width: 0; display: flex; align-items: center; gap: 10px; background: #f6f7f7; border: 1px solid #e4e6e8; border-radius: 12px; padding: 6px 6px 6px 14px">
+<span aria-hidden="true" style="width: 22px; height: 22px; border-radius: 50%; background: #0f766e; display: block; flex: none"></span>
+<label for="pl-cmd" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Tell Cue what to do</label>
+<input id="pl-cmd" placeholder="Tell Cue what to do, like &quot;move every rage clip to Friday&quot;" style="flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit">
+<span style="font-size: 12px; color: #5f666d; border: 1px solid #d5d8db; border-radius: 6px; padding: 2px 6px; background: #fff">Ctrl K</span>
+</div>
+<div role="group" aria-label="Source" style="display: flex; gap: 6px">
+<button type="button" style="border: 1px solid #17191c; background: #17191c; color: #fff; border-radius: 999px; padding: 7px 14px; min-height: 36px">All</button>
+<button type="button" style="border: 1px solid #d5d8db; background: #fff; border-radius: 999px; padding: 7px 14px; min-height: 36px">My streams</button>
+<button type="button" style="border: 1px solid #d5d8db; background: #fff; border-radius: 999px; padding: 7px 14px; min-height: 36px">Campaigns</button>
+</div>
+<span style="font-size: 11px; color: #5f666d; border: 1px solid #d5d8db; border-radius: 4px; padding: 2px 6px">SAMPLE DATA</span>
+</header>
+
+<div style="overflow-x: auto; flex: 1">
+<div style="display: flex; gap: 18px; padding: 24px 28px; min-width: 1100px; box-sizing: border-box; align-items: flex-start">
+<sc-for list="{{cols}}" as="col" hint-placeholder-count="4">
+<section style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: baseline; gap: 8px">
+<strong style="font-size: 16px">{{col.name}}</strong>
+<span style="color: #5f666d">{{col.count}}</span>
+</div>
+<div style="font-size: 13px; color: #0a4f4a; background: #d6f0ec; border-radius: 8px; padding: 8px 10px; line-height: 1.4">{{col.cue}}</div>
+<sc-for list="{{col.cards}}" as="c" hint-placeholder-count="3">
+<article style="background: #ffffff; border: 1px solid #e4e6e8; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column">
+<div style="display: flex; gap: 12px; padding: 12px">
+<div style="flex: 0 0 54px; height: 96px; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; background: #17191c">
+<div style="flex: 0 0 40%; background: #4b5157"></div><div style="flex: 1; background: #2d3237"></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px; min-width: 0">
+<a href="Clip.dc.html" style="font-size: 15px; line-height: 1.3; font-weight: 700; color: #17191c; text-decoration: none">{{c.title}}</a>
+<span style="font-size: 12px; font-weight: 600; color: {{c.srcColor}}">{{c.src}}</span>
+<span style="font-size: 12px; color: #5f666d">{{c.meta}}</span>
+</div>
+</div>
+<sc-if value="{{c.hasNote}}" hint-placeholder-val="{{true}}">
+<div style="border-top: 1px solid #e4e6e8; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; background: #fbfcfc">
+<span style="font-size: 13px; line-height: 1.4"><strong style="color: #0f766e">Cue:</strong> {{c.note}}</span>
+<sc-if value="{{c.hasAction}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; gap: 6px">
+<button type="button" style="border: 0; background: #0f766e; color: #fff; border-radius: 8px; padding: 6px 12px; min-height: 32px; font-weight: 600; font-size: 13px">{{c.action}}</button>
+<button type="button" style="border: 1px solid #d5d8db; background: #fff; border-radius: 8px; padding: 6px 12px; min-height: 32px; font-size: 13px">Not now</button>
+</div>
+</sc-if>
+</div>
+</sc-if>
+<sc-if value="{{c.working}}" hint-placeholder-val="{{false}}">
+<div style="height: 4px; background: #e4e6e8"><div style="width: 58%; height: 100%; background: #0f766e"></div></div>
+</sc-if>
+</article>
+</sc-for>
+</section>
+</sc-for>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const mine = '#0f766e', camp = '#9a5b13';
+    const card = (title, src, meta, note, action, working) => ({ title, src, meta, note: note || '', hasNote: !!note, action: action || '', hasAction: !!action, working: !!working, srcColor: src.startsWith('Campaign') ? camp : mine });
+    return { cols: [
+      { name: 'Found', count: '4', cue: 'Cue is scanning [CREATOR A]’s new VOD. 2 found so far.', cards: [
+        card('Clutch on match point', 'Campaign · [CREATOR A]', '0:41 · found 4 min ago', 'Still cutting this one.', '', true),
+        card('Chat roasts the outfit', 'Your stream · Oct 7', '0:29', 'Funny, but it needs chat on screen to make sense. Skip?', 'Skip it'),
+        card('Missed jump', 'Your stream · Oct 7', '0:12', '')
+      ] },
+      { name: 'Ready', count: '3', cue: '3 clips are ready to schedule.', cards: [
+        card('The 1v3 nobody saw coming', 'Your stream · Oct 7', '0:38 · captions, 9:16', 'Strongest clip this month. Post it first.', 'Schedule 6 pm'),
+        card('Patch notes rage', 'Your stream · Oct 7', '0:24 · v3', 'I cut the slow start and made captions XL.', ''),
+        card('Cooking stream goes wrong', 'Campaign · [CREATOR B]', '0:33', 'Their rules say tag them. Done.', 'Send for approval')
+      ] },
+      { name: 'Scheduled', count: '3', cue: 'Next post goes out tonight at 6 pm.', cards: [
+        card('The cat takes over', 'Your stream · Oct 7', 'Tonight 8 pm · Reels', ''),
+        card('Boss fight meltdown', 'Your stream · Oct 5', 'Fri 6 pm · Shorts, TikTok', ''),
+        card('Speedrun fail', 'Campaign · [CREATOR A]', 'Sat 12 pm · TikTok', '')
+      ] },
+      { name: 'Posted', count: '38', cue: 'Rage clips are holding viewers longest this week.', cards: [
+        card('Jump scare at 2 am', 'Your stream · Oct 5', '12.4k views · posted Tue', 'Your best horror clip so far.', ''),
+        card('The 40-minute puzzle', 'Your stream · Oct 3', '3.1k views', '')
+      ] }
+    ] };
+  }
+}
+</script>
+</body>
+</html>

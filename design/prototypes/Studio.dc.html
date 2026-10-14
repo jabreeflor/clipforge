@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Studio timeline</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#f2a93b}a:hover{color:#ffc36b}
+button{font:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="background: #0e1014; color: #e8eaf0; font-family: 'IBM Plex Sans', system-ui, sans-serif; font-size: 14px; min-height: 960px; display: flex; flex-direction: column">
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 12px 20px; border-bottom: 1px solid #262a33; background: #12151b">
+<strong style="font-size: 16px; letter-spacing: 0.02em">ClipForge <span style="color: #f2a93b">Studio</span></strong>
+<div role="group" aria-label="Source" style="display: flex; background: #1b1f27; border-radius: 8px; padding: 3px; gap: 2px">
+<button type="button" style="border: 0; background: #2b303b; color: #e8eaf0; padding: 6px 12px; border-radius: 6px; font-weight: 600">My streams</button>
+<button type="button" style="border: 0; background: transparent; color: #8b91a0; padding: 6px 12px; border-radius: 6px">Campaigns · 3</button>
+</div>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #8b91a0">Ranked grind, new patch · Oct 7 · 3:42:10</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8b91a0; border: 1px solid #353a46; border-radius: 4px; padding: 2px 6px">SAMPLE DATA</span>
+<div style="margin-left: auto; display: flex; gap: 8px">
+<button type="button" style="border: 1px solid #353a46; background: transparent; color: #e8eaf0; padding: 8px 14px; border-radius: 8px; min-height: 36px">Re-run detection</button>
+<button type="button" style="border: 0; background: #f2a93b; color: #1a1205; padding: 8px 16px; border-radius: 8px; font-weight: 700; min-height: 36px">Export 3 clips</button>
+</div>
+</header>
+
+<div style="display: flex; flex-wrap: wrap; flex: 1; min-height: 0">
+
+<aside style="flex: 1 1 260px; max-width: 320px; min-width: 0; border-right: 1px solid #262a33; padding: 16px; display: flex; flex-direction: column; gap: 10px; background: #12151b">
+<div style="display: flex; justify-content: space-between; align-items: baseline"><strong>Moments</strong><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #8b91a0">14 found</span></div>
+<sc-for list="{{moments}}" as="m" hint-placeholder-count="6">
+<button type="button" style="box-sizing: border-box; {{m.box}}">
+<span style="display: flex; justify-content: space-between; gap: 8px"><strong style="font-size: 14px; text-align: left">{{m.title}}</strong><span style="font-family: 'IBM Plex Mono', monospace; color: #f2a93b; font-weight: 600">{{m.score}}</span></span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8b91a0; text-align: left">{{m.time}} · {{m.why}}</span>
+</button>
+</sc-for>
+</aside>
+
+<main style="flex: 999 1 560px; min-width: 0; padding: 20px; display: flex; flex-direction: column; gap: 16px">
+<div style="position: relative; aspect-ratio: 16 / 9; max-width: 100%; border-radius: 10px; overflow: hidden; background: #1b2230">
+<div style="position: absolute; inset: 0; background: repeating-linear-gradient(135deg, #1b2230 0 22px, #1e2636 22px 44px)"></div>
+<div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-family: 'IBM Plex Mono', monospace; color: #6c7488; font-size: 13px">[GAMEPLAY PREVIEW]</div>
+<div style="position: absolute; right: 16px; bottom: 16px; width: 22%; aspect-ratio: 4 / 3; border-radius: 8px; background: #2b303b; border: 2px solid #f2a93b; display: grid; place-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #a7adbb">[FACECAM]</div>
+<div style="position: absolute; left: 16px; top: 16px; background: rgba(0,0,0,0.6); padding: 6px 10px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 12px">1:12:38 / 3:42:10</div>
+</div>
+<div style="display: flex; align-items: center; gap: 10px">
+<button type="button" aria-label="Play" style="width: 40px; height: 40px; border-radius: 50%; border: 0; background: #e8eaf0; display: grid; place-items: center"><svg width="14" height="14" viewBox="0 0 14 14" fill="#0e1014"><path d="M3 1.5v11l9-5.5z"/></svg></button>
+<span style="color: #8b91a0">Selected:</span><strong>"He did NOT just do that" · 0:38</strong>
+<span style="margin-left: auto; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #8b91a0">In 1:12:21 · Out 1:12:59</span>
+</div>
+</main>
+
+<aside style="flex: 1 1 300px; max-width: 360px; min-width: 0; border-left: 1px solid #262a33; padding: 16px; display: flex; flex-direction: column; gap: 14px; background: #12151b">
+<strong>9:16 output</strong>
+<div style="width: 190px; aspect-ratio: 9 / 16; margin: 0 auto; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; background: #000; border: 1px solid #353a46">
+<div style="flex: 0 0 38%; background: #2b303b; display: grid; place-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #a7adbb">[FACECAM]</div>
+<div style="flex: 1; background: repeating-linear-gradient(135deg, #1b2230 0 14px, #1e2636 14px 28px); position: relative">
+<div style="position: absolute; left: 10px; right: 10px; top: 18px; text-align: center; font-weight: 700; font-size: 15px; line-height: 1.2; color: #fff; text-shadow: 0 2px 0 #000">HE DID <span style="color: #f2a93b">NOT</span> JUST DO THAT</div>
+</div>
+</div>
+<label for="studio-title" style="font-size: 12px; color: #8b91a0">Title</label>
+<input id="studio-title" value="The 1v3 nobody saw coming" style="background: #1b1f27; border: 1px solid #353a46; color: #e8eaf0; border-radius: 8px; padding: 10px; font: inherit">
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<span style="background: #1b1f27; border-radius: 6px; padding: 4px 8px; font-size: 12px">Captions: Punch</span>
+<span style="background: #1b1f27; border-radius: 6px; padding: 4px 8px; font-size: 12px">Layout: Cam top</span>
+<span style="background: #1b1f27; border-radius: 6px; padding: 4px 8px; font-size: 12px">Zoom on kill</span>
+</div>
+</aside>
+</div>
+
+<section aria-label="Timeline" style="border-top: 1px solid #262a33; background: #12151b; padding: 14px 20px 18px; display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8b91a0; padding-left: 110px"><span>0:00</span><span>0:30</span><span>1:00</span><span>1:30</span><span>2:00</span><span>2:30</span><span>3:00</span><span>3:42</span></div>
+<div style="overflow-x: auto">
+<div style="min-width: 760px; display: flex; flex-direction: column; gap: 4px; position: relative">
+<sc-for list="{{lanes}}" as="lane" hint-placeholder-count="5">
+<div style="display: flex; align-items: flex-end; gap: 0; height: 34px">
+<span style="flex: 0 0 110px; font-size: 12px; color: {{lane.color}}; align-self: center; font-weight: 600">{{lane.name}}</span>
+<div style="flex: 1; display: flex; align-items: flex-end; gap: 2px; height: 100%; background: #171a21; border-radius: 4px; padding: 2px 4px">
+<sc-for list="{{lane.bars}}" as="b" hint-placeholder-count="60">
+<span style="display: block; {{b}}"></span>
+</sc-for>
+</div>
+</div>
+</sc-for>
+<div style="display: flex; height: 22px; padding-left: 110px; position: relative">
+<sc-for list="{{clips}}" as="c" hint-placeholder-count="4">
+<span style="display: block; {{c.style}}">{{c.label}}</span>
+</sc-for>
+</div>
+</div>
+</div>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const n = 60;
+    const wave = (seed, peaks, base) => Array.from({ length: n }, (_, i) => {
+      let v = base + 0.18 * Math.abs(Math.sin(i * 1.7 + seed));
+      peaks.forEach(p => { v += Math.max(0, 1 - Math.abs(i - p) / 2.2); });
+      return Math.min(1, v);
+    });
+    const bar = (color) => (v) => 'flex: 1; border-radius: 2px; background: ' + color + '; opacity: ' + (0.35 + 0.65 * v).toFixed(2) + '; height: ' + Math.round(8 + v * 92) + '%';
+    const lanes = [
+      { name: 'Voice', color: '#f2a93b', v: wave(1, [19, 33, 47], 0.12) },
+      { name: 'Transcript', color: '#7aa7ff', v: wave(2, [19, 41], 0.05) },
+      { name: 'Game events', color: '#ff7a7a', v: wave(3, [19, 33, 52], 0.02) },
+      { name: 'Your markers', color: '#e8eaf0', v: Array.from({ length: n }, (_, i) => [19, 47].includes(i) ? 1 : 0) },
+      { name: 'Chat', color: '#5fd3a3', v: wave(5, [33], 0.03) }
+    ].map(l => ({ name: l.name, color: l.color, bars: l.v.map(bar(l.color)) }));
+    const clip = (left, width, label, on) => ({ label, style: 'position: absolute; left: calc(110px + (100% - 110px) * ' + left + '); width: calc((100% - 110px) * ' + width + '); height: 22px; border-radius: 4px; font-size: 11px; font-weight: 600; line-height: 22px; padding: 0 6px; overflow: hidden; white-space: nowrap; box-sizing: border-box; ' + (on ? 'background: #f2a93b; color: #1a1205' : 'background: #2b303b; color: #e8eaf0; border: 1px solid #f2a93b') });
+    const clips = [clip(0.305, 0.04, '1v3', true), clip(0.535, 0.035, 'Rage', false), clip(0.68, 0.035, 'Story', false), clip(0.775, 0.04, 'Win', false)];
+    const box = (on) => 'display: flex; flex-direction: column; gap: 4px; width: 100%; text-align: left; border-radius: 8px; padding: 10px 12px; color: #e8eaf0; ' + (on ? 'background: #2a2418; border: 1px solid #f2a93b' : 'background: #1b1f27; border: 1px solid transparent');
+    const moments = [
+      { title: 'He did NOT just do that', score: 94, time: '1:12:21', why: 'voice + kill + marker', on: true },
+      { title: 'Rage at the patch notes', score: 88, time: '1:59:02', why: 'voice + transcript' },
+      { title: 'The cat walks on stream', score: 81, time: '2:31:40', why: 'transcript + facecam' },
+      { title: 'Ranked win, finally', score: 79, time: '2:52:15', why: 'game + marker' },
+      { title: 'Story about the tournament', score: 72, time: '0:41:10', why: 'transcript' },
+      { title: 'Chat roasts the outfit', score: 64, time: '1:36:55', why: 'chat + laughter' }
+    ].map(m => Object.assign({}, m, { box: box(m.on) }));
+    return { lanes, clips, moments };
+  }
+}
+</script>
+</body>
+</html>

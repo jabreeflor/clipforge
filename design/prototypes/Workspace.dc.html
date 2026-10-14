@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Chat workspace</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;family=Instrument+Serif&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#0f766e}a:hover{color:#0a4f4a}
+button{font:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="background: #ffffff; color: #17191c; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 15px; min-height: 960px; display: flex; flex-wrap: wrap">
+
+<section aria-label="Chat with Cue" style="flex: 1 1 400px; max-width: 460px; min-width: 0; border-right: 1px solid #e4e6e8; display: flex; flex-direction: column; box-sizing: border-box">
+<header style="padding: 20px 24px; border-bottom: 1px solid #e4e6e8; display: flex; align-items: center; gap: 10px">
+<span aria-hidden="true" style="width: 30px; height: 30px; border-radius: 50%; background: #0f766e; display: block"></span>
+<strong style="font-size: 16px">Cue</strong>
+<span style="font-size: 13px; color: #5f666d">editing with you</span>
+<span style="margin-left: auto; font-size: 11px; color: #5f666d; border: 1px solid #d5d8db; border-radius: 4px; padding: 2px 6px">SAMPLE</span>
+</header>
+<div style="flex: 1; padding: 24px; display: flex; flex-direction: column; gap: 18px">
+<div style="align-self: flex-end; max-width: 85%; background: #eef1f2; border-radius: 16px; padding: 12px 14px; line-height: 1.5">Open the patch notes rage clip. Cut the slow start and make the captions bigger.</div>
+<div style="display: flex; flex-direction: column; gap: 8px; line-height: 1.55">
+<span>Opened it on the right. I cut the first 5 seconds, where you're reading silently, so it starts on "who approved this." Captions are now XL.</span>
+<span style="font-size: 13px; color: #5f666d">3 changes · version 2</span>
+</div>
+<div style="align-self: flex-end; max-width: 85%; background: #eef1f2; border-radius: 16px; padding: 12px 14px; line-height: 1.5">Zoom in on my face when I yell.</div>
+<div style="display: flex; flex-direction: column; gap: 8px; line-height: 1.55">
+<span>Added a punch-in at 0:07 for 1.5 seconds. You can also edit by crossing out words in the transcript.</span>
+<span style="font-size: 13px; color: #5f666d">1 change · version 3</span>
+</div>
+</div>
+<div style="padding: 0 24px 24px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<button type="button" style="border: 1px solid #d5d8db; background: #fff; border-radius: 999px; padding: 7px 12px; min-height: 36px; font-size: 13px">Try a different hook</button>
+<button type="button" style="border: 1px solid #d5d8db; background: #fff; border-radius: 999px; padding: 7px 12px; min-height: 36px; font-size: 13px">Add music</button>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; border: 1.5px solid #17191c; border-radius: 14px; padding: 8px 8px 8px 14px">
+<label for="ws-msg" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Message Cue</label>
+<input id="ws-msg" placeholder="Tell Cue what to change" style="flex: 1; min-width: 0; border: 0; outline: 0; font: inherit; background: transparent">
+<button type="button" aria-label="Send" style="width: 40px; height: 40px; border: 0; border-radius: 10px; background: #0f766e; display: grid; place-items: center"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V3M3.5 7.5L8 3l4.5 4.5"/></svg></button>
+</div>
+</div>
+</section>
+
+<main style="flex: 999 1 640px; min-width: 0; background: #f6f7f7; padding: 28px 36px; box-sizing: border-box; display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+<h1 style="margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 700; letter-spacing: -0.02em; font-size: 40px; line-height: 1">Patch notes rage</h1>
+<div role="group" aria-label="Versions" style="display: flex; gap: 4px; margin-left: 8px">
+<button type="button" style="border: 1px solid #d5d8db; background: #fff; border-radius: 8px; padding: 6px 10px; min-height: 32px; font-size: 13px">v1</button>
+<button type="button" style="border: 1px solid #d5d8db; background: #fff; border-radius: 8px; padding: 6px 10px; min-height: 32px; font-size: 13px">v2</button>
+<button type="button" style="border: 1px solid #0f766e; background: #0f766e; color: #fff; border-radius: 8px; padding: 6px 10px; min-height: 32px; font-size: 13px; font-weight: 600">v3</button>
+</div>
+<button type="button" style="margin-left: auto; border: 0; background: #17191c; color: #fff; border-radius: 10px; padding: 10px 18px; min-height: 44px; font-weight: 600">Schedule post</button>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start">
+<div style="flex: 0 0 250px; max-width: 100%; aspect-ratio: 9 / 16; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; background: #17191c; position: relative; box-shadow: 0 10px 30px rgba(23,25,28,0.18)">
+<div style="flex: 0 0 40%; background: #4b5157"></div>
+<div style="flex: 1; background: #2d3237"></div>
+<span style="position: absolute; left: 12px; right: 12px; top: 38%; text-align: center; color: #fff; font-weight: 700; font-size: 26px; line-height: 1.05; text-shadow: 0 2px 0 #000">WHO APPROVED THIS</span>
+<span style="position: absolute; left: 12px; bottom: 12px; font-size: 12px; color: #fff; background: rgba(0,0,0,0.55); border-radius: 6px; padding: 3px 8px">0:07 / 0:24</span>
+</div>
+
+<div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+<div style="background: #ffffff; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #5f666d">TRANSCRIPT · CROSS OUT WORDS TO CUT</span>
+<p style="margin: 0; font-size: 18px; line-height: 1.7"><span style="text-decoration: line-through; color: #9aa1a8">okay so patch notes, let's see, hmm, reading, uh</span> who approved this? <span style="background: #d6f0ec; border-radius: 4px; padding: 0 3px">WHO APPROVED THIS?</span> They nerfed the one thing that was working. Three years. Three years I mained this. <span style="text-decoration: line-through; color: #9aa1a8">anyway chat what do we think</span></p>
+</div>
+<div style="background: #ffffff; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #5f666d">WHAT CUE CHANGED</span>
+<div style="display: flex; gap: 12px"><span style="color: #0f766e; font-weight: 700">v2</span><span>Cut 0:00 to 0:05, the silent reading</span></div>
+<div style="display: flex; gap: 12px"><span style="color: #0f766e; font-weight: 700">v2</span><span>Captions from L to XL</span></div>
+<div style="display: flex; gap: 12px"><span style="color: #0f766e; font-weight: 700">v2</span><span>Cut the "chat what do we think" ending</span></div>
+<div style="display: flex; gap: 12px"><span style="color: #0f766e; font-weight: 700">v3</span><span>Punch-in on facecam at 0:07 for 1.5 seconds</span></div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

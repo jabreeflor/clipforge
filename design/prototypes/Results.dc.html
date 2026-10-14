@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Clip results</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#0f766e}a:hover{color:#0a4f4a}
+button{font:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="background: #ffffff; color: #17191c; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; min-height: 1000px; display: flex; flex-direction: column">
+
+<header style="border-bottom: 1px solid #e4e6e8; padding: 14px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px">
+<strong style="font-size: 20px; letter-spacing: -0.02em">ClipForge</strong>
+<nav aria-label="Breadcrumb" style="display: flex; align-items: center; gap: 8px; color: #5f666d; min-width: 0">
+<a href="Pipeline.dc.html" style="text-decoration: none; font-weight: 600">Pipeline</a><span aria-hidden="true">/</span><strong style="color: #17191c">Results</strong>
+</nav>
+<span style="font-size: 11px; color: #5f666d; border: 1px solid #d5d8db; border-radius: 4px; padding: 2px 6px">SAMPLE DATA</span>
+<div role="group" aria-label="Date range" style="margin-left: auto; display: flex; gap: 6px">
+<button type="button" style="border: 1px solid #d5d8db; background: #fff; border-radius: 999px; padding: 0 14px; min-height: 36px">7 days</button>
+<button type="button" style="border: 1px solid #17191c; background: #17191c; color: #fff; border-radius: 999px; padding: 0 14px; min-height: 36px">30 days</button>
+<button type="button" style="border: 1px solid #d5d8db; background: #fff; border-radius: 999px; padding: 0 14px; min-height: 36px">90 days</button>
+</div>
+</header>
+
+<div style="flex: 1; display: flex; flex-wrap: wrap; min-height: 0">
+
+<section aria-label="Ask Cue about your results" style="flex: 1 1 360px; max-width: 420px; min-width: 0; border-right: 1px solid #e4e6e8; background: #f6f7f7; display: flex; flex-direction: column; box-sizing: border-box">
+<div style="padding: 16px 20px; border-bottom: 1px solid #e4e6e8; display: flex; align-items: center; gap: 10px; background: #ffffff">
+<span aria-hidden="true" style="width: 26px; height: 26px; border-radius: 50%; background: #0f766e; display: block; flex: none"></span>
+<div style="display: flex; flex-direction: column"><strong style="font-size: 15px">Cue</strong><span style="font-size: 12px; color: #5f666d">Reading your last 30 days</span></div>
+</div>
+<div role="log" aria-live="polite" style="flex: 1; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto">
+<sc-for list="{{msgs}}" as="m" hint-placeholder-count="5">
+<div style="display: flex; flex-direction: column; gap: 6px; {{m.wrap}}">
+<div style="max-width: 90%; border-radius: 14px; padding: 10px 14px; line-height: 1.45; {{m.bubble}}">{{m.text}}</div>
+<sc-if value="{{m.hasLink}}" hint-placeholder-val="{{false}}">
+<a href="Clip.dc.html" style="align-self: flex-start; border-radius: 10px; padding: 7px 12px; font-size: 13px; font-weight: 600; text-decoration: none; background: #0f766e; color: #ffffff">{{m.link}}</a>
+</sc-if>
+</div>
+</sc-for>
+</div>
+<div style="padding: 14px 20px 18px; border-top: 1px solid #e4e6e8; background: #ffffff; display: flex; flex-direction: column; gap: 10px">
+<sc-if value="{{hasNext}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<span style="font-size: 12px; color: #5f666d; width: 100%">Ask</span>
+<button type="button" onClick="{{next.go}}" style="border: 1px solid #b9e3dc; background: #f1faf8; color: #0a4f4a; border-radius: 999px; padding: 6px 12px; min-height: 34px; font-size: 13px">{{next.label}}</button>
+</div>
+</sc-if>
+<div style="display: flex; gap: 8px; align-items: center; border: 1px solid #d5d8db; border-radius: 12px; padding: 6px 6px 6px 14px">
+<label for="res-ask" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Ask Cue about your results</label>
+<input id="res-ask" placeholder="Ask anything, like &quot;what time should I post?&quot;" style="flex: 1; min-width: 0; border: 0; outline: 0; font: inherit; background: transparent">
+<button type="button" onClick="{{next.go}}" style="border: 0; background: #17191c; color: #fff; border-radius: 8px; padding: 0 14px; min-height: 36px; font-weight: 600">Send</button>
+</div>
+</div>
+</section>
+
+<section aria-label="Results" style="flex: 999 1 640px; min-width: 0; padding: 22px 26px; box-sizing: border-box; display: flex; flex-direction: column; gap: 18px">
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px">
+<sc-for list="{{kpis}}" as="k" hint-placeholder-count="4">
+<div style="border: 1px solid #e4e6e8; border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; color: #5f666d">{{k.label}}</span>
+<strong style="font-size: 26px; letter-spacing: -0.02em">{{k.value}}</strong>
+<span style="font-size: 12px; font-weight: 600; color: {{k.color}}">{{k.delta}}</span>
+</div>
+</sc-for>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 16px">
+<div style="flex: 3 1 380px; min-width: 0; border: 1px solid #e4e6e8; border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: baseline; gap: 10px"><strong style="font-size: 15px">Views per day</strong><span style="font-size: 12px; color: #5f666d">Sep 15 to Oct 14</span></div>
+<div role="img" aria-label="Daily views over 30 days, peaking at 6.8k on Oct 6 after the jump scare clip" style="height: 150px; display: flex; align-items: flex-end; gap: 3px; border-bottom: 1px solid #e4e6e8">
+<sc-for list="{{days}}" as="d" hint-placeholder-count="30">
+<div style="flex: 1; min-width: 0; border-radius: 3px 3px 0 0; {{d.style}}"></div>
+</sc-for>
+</div>
+<div style="display: flex; justify-content: space-between; font-size: 11px; color: #5f666d"><span>Sep 15</span><span>Sep 25</span><span>Oct 5</span><span>Oct 14</span></div>
+</div>
+<div style="flex: 2 1 280px; min-width: 0; border: 1px solid #e4e6e8; border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: baseline; gap: 10px"><strong style="font-size: 15px">What's working</strong><span style="font-size: 12px; color: #5f666d">Average watched, by kind of clip</span></div>
+<sc-for list="{{kinds}}" as="t" hint-placeholder-count="5">
+<div style="display: flex; align-items: center; gap: 10px">
+<span style="flex: 0 0 70px; font-size: 13px">{{t.name}}</span>
+<div style="flex: 1; height: 14px; background: #f0f1f2; border-radius: 4px; overflow: hidden"><div style="height: 100%; border-radius: 4px; {{t.bar}}"></div></div>
+<strong style="flex: 0 0 36px; text-align: right; font-size: 13px">{{t.pct}}</strong>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 16px">
+<div style="flex: 3 1 420px; min-width: 0; border: 1px solid #e4e6e8; border-radius: 14px; overflow: hidden">
+<div style="padding: 14px 16px 8px"><strong style="font-size: 15px">Posted clips</strong></div>
+<div style="overflow-x: auto">
+<table style="width: 100%; border-collapse: collapse; font-size: 13px; min-width: 460px">
+<thead><tr style="text-align: left; color: #5f666d; font-size: 12px">
+<th scope="col" style="padding: 8px 16px; font-weight: 600">Clip</th>
+<th scope="col" style="padding: 8px; font-weight: 600; text-align: right">Views</th>
+<th scope="col" style="padding: 8px; font-weight: 600; text-align: right">Watched</th>
+<th scope="col" style="padding: 8px 16px 8px 8px; font-weight: 600; text-align: right">Followers</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
+<tr onClick="{{r.pick}}" style="cursor: pointer; border-top: 1px solid #f0f1f2; {{r.rowStyle}}">
+<td style="padding: 9px 16px"><div style="display: flex; flex-direction: column; gap: 2px"><strong>{{r.title}}</strong><span style="font-size: 12px; color: {{r.srcColor}}">{{r.src}}</span></div></td>
+<td style="padding: 9px 8px; text-align: right; font-weight: 600">{{r.views}}</td>
+<td style="padding: 9px 8px; text-align: right; color: {{r.watchColor}}; font-weight: 600">{{r.watched}}</td>
+<td style="padding: 9px 16px 9px 8px; text-align: right">{{r.follows}}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</div>
+
+<div style="flex: 2 1 300px; min-width: 0; border: 1px solid #e4e6e8; border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; flex-direction: column; gap: 2px"><strong style="font-size: 15px">{{sel.title}}</strong><span style="font-size: 12px; color: #5f666d">Viewers still watching, second by second</span></div>
+<div style="position: relative; height: 140px; display: flex; align-items: flex-end; gap: 3px; border-bottom: 1px solid #e4e6e8; border-left: 1px solid #e4e6e8; padding-left: 3px">
+<sc-for list="{{sel.curve}}" as="c" hint-placeholder-count="14">
+<div style="flex: 1; min-width: 0; border-radius: 2px 2px 0 0; {{c.style}}"></div>
+</sc-for>
+</div>
+<div style="display: flex; justify-content: space-between; font-size: 11px; color: #5f666d"><span>0:00</span><span>{{sel.len}}</span></div>
+<div style="background: #f1faf8; border: 1px solid #b9e3dc; border-radius: 10px; padding: 10px 12px; font-size: 13px; line-height: 1.45"><strong style="color: #0f766e">Cue:</strong> {{sel.note}}</div>
+</div>
+</div>
+
+</section>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { sel: 0, step: 0 }; }
+  renderVals() {
+    const teal = '#0f766e', camp = '#9a5b13';
+    const clips = [
+      { title: 'Jump scare at 2 am', src: 'Your stream · TikTok, Shorts', views: '12.4k', watched: 71, follows: '+92', len: '0:29', drop: -1,
+        curve: [100, 97, 95, 93, 92, 90, 88, 86, 85, 83, 81, 79, 78, 77], note: 'Barely anyone leaves. The scare lands at 0:04, before people decide to swipe.' },
+      { title: 'Ranked rage quit', src: 'Your stream · TikTok', views: '9.8k', watched: 74, follows: '+61', len: '0:24', drop: -1,
+        curve: [100, 98, 96, 95, 93, 92, 91, 89, 88, 87, 86, 84, 83, 82], note: 'Your best hold rate. People rewatch the yell at 0:18.' },
+      { title: 'Clutch on match point', src: 'Campaign · [CREATOR A]', views: '6.2k', watched: 63, follows: 'n/a', len: '0:41', drop: -1, campaign: true,
+        curve: [100, 94, 90, 87, 84, 81, 78, 75, 72, 70, 68, 66, 64, 62], note: 'Earned $24.80 at $4 per 1k views. Steady, no big drop.' },
+      { title: 'The 40-minute puzzle', src: 'Your stream · Shorts', views: '3.1k', watched: 48, follows: '+14', len: '0:52', drop: 6,
+        curve: [100, 92, 84, 76, 69, 63, 52, 47, 44, 41, 39, 37, 36, 35], note: 'Too long. Most people leave around 0:22, when the explaining starts.' },
+      { title: 'Boss fight meltdown', src: 'Your stream · Shorts, TikTok', views: '1.9k', watched: 66, follows: '+9', len: '0:33', drop: -1,
+        curve: [100, 96, 92, 89, 86, 83, 80, 77, 75, 72, 70, 68, 66, 65], note: 'Posted two days ago and still climbing. Check back Friday.' },
+      { title: 'The cat takes over', src: 'Your stream · Reels', views: '0.9k', watched: 31, follows: '+2', len: '0:27', drop: 1,
+        curve: [100, 48, 41, 37, 34, 32, 30, 29, 28, 27, 27, 26, 26, 25], note: 'Half the viewers left in the first 3 seconds. It opens on you reading chat, and the cat shows up at 0:04.' }
+    ];
+    const sel = this.state.sel, step = this.state.step;
+    const c = clips[sel];
+    const rows = clips.map((x, i) => ({
+      title: x.title, src: x.src, views: x.views, watched: x.watched + '%', follows: x.follows,
+      srcColor: x.campaign ? camp : '#5f666d',
+      watchColor: x.watched >= 60 ? teal : (x.watched < 40 ? '#b42318' : '#17191c'),
+      rowStyle: i === sel ? 'background: #f1faf8; box-shadow: inset 3px 0 0 #0f766e' : '',
+      pick: () => this.setState({ sel: i })
+    }));
+    const curve = c.curve.map((v, i) => ({ style: 'height: ' + v + '%; background: ' + (i === c.drop ? '#b42318' : (c.drop >= 0 && i > c.drop ? '#9fd9cf' : teal)) }));
+    const dv = [1.1, 1.3, 0.9, 1.2, 1.6, 1.4, 1.2, 1.0, 1.5, 1.8, 1.4, 1.3, 1.2, 1.9, 2.2, 1.8, 1.6, 1.5, 2.1, 2.4, 2.0, 6.8, 5.1, 3.4, 2.6, 2.9, 3.8, 3.1, 2.7, 2.5];
+    const days = dv.map((v, i) => ({ style: 'height: ' + Math.round(v / 6.8 * 100) + '%; background: ' + (i === 21 ? teal : '#9fd9cf') }));
+    const kinds = [['Rage', 71], ['Clutch', 66], ['Horror', 64], ['Funny', 54], ['Puzzle', 48]].map(k => ({ name: k[0], pct: k[1] + '%', bar: 'width: ' + k[1] + '%; background: ' + (k[1] >= 60 ? teal : '#9aa1a8') }));
+    const kpis = [
+      { label: 'Views', value: '48.2k', delta: 'Up 31% from last month', color: teal },
+      { label: 'Average watched', value: '62%', delta: 'Up 6 points', color: teal },
+      { label: 'Followers from clips', value: '+214', delta: 'Up 40%', color: teal },
+      { label: 'Campaign earnings', value: '$86.40', delta: '2 campaigns, $24.80 pending', color: camp }
+    ];
+    const convo = [
+      { ask: 'Why did the cat clip flop?', sel: 5, reply: 'It opens on 3 seconds of you reading chat, and the cat shows up at 0:04. Half the viewers swiped before then. I can recut it to start on the cat and repost it Saturday.', link: 'Recut it in the editor' },
+      { ask: 'What should I clip more of?', sel: 1, reply: 'Rage and clutch moments. They average about 70% watched, and long puzzle clips get 48%. I will rank those higher in Found and keep puzzle clips under 30 seconds.' },
+      { ask: 'How are campaigns paying?', sel: 2, reply: '[CREATOR A] pays $4 per 1k views, so the match point clip earned $24.80. You have made $86.40 from 2 campaigns this month. Their next deadline is Sunday.' }
+    ];
+    const msgs = [{ cue: true, text: 'Your clips got 48.2k views this month, up 31%. The jump scare clip did most of that. Rage clips keep people watching longest, and the cat clip lost half its viewers in 3 seconds.' }];
+    for (let i = 0; i < step; i++) {
+      msgs.push({ cue: false, text: convo[i].ask });
+      msgs.push({ cue: true, text: convo[i].reply, link: convo[i].link });
+    }
+    const L = msgs.map(m => ({
+      text: m.text,
+      wrap: m.cue ? 'align-items: flex-start' : 'align-items: flex-end',
+      bubble: m.cue ? 'background: #ffffff; border: 1px solid #e4e6e8' : 'background: #17191c; color: #ffffff',
+      hasLink: !!m.link, link: m.link || ''
+    }));
+    const hasNext = step < convo.length;
+    const next = hasNext ? { label: convo[step].ask, go: () => this.setState({ step: step + 1, sel: convo[step].sel }) } : { label: '', go: () => {} };
+    return { msgs: L, hasNext, next, kpis, days, kinds, rows, sel: { title: c.title, len: c.len, note: c.note, curve } };
+  }
+}
+</script>
+</body>
+</html>

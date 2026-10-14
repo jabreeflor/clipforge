@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Posting planner</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#0f766e}a:hover{color:#0a4f4a}
+button{font:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="background: #ffffff; color: #17191c; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; min-height: 960px; display: flex; flex-wrap: wrap">
+
+<aside aria-label="Clips to place" style="flex: 1 1 260px; max-width: 290px; min-width: 0; background: #f6f7f7; border-right: 1px solid #e4e6e8; padding: 24px 18px; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px">
+<strong style="font-size: 20px; letter-spacing: -0.02em">ClipForge</strong>
+<div style="display: flex; flex-direction: column; gap: 4px; padding-top: 8px">
+<strong style="font-size: 15px">Not scheduled yet</strong>
+<span style="font-size: 13px; color: #5f666d">Drag onto a day, or let Cue place them.</span>
+</div>
+<sc-for list="{{tray}}" as="t" hint-placeholder-count="4">
+<div style="display: flex; gap: 10px; align-items: center; background: #ffffff; border: 1px solid #e4e6e8; border-radius: 10px; padding: 8px">
+<div style="flex: 0 0 30px; height: 52px; border-radius: 6px; background: #2d3237"></div>
+<div style="display: flex; flex-direction: column; gap: 2px; min-width: 0"><strong style="font-size: 13px; line-height: 1.3">{{t.title}}</strong><span style="font-size: 12px; color: {{t.color}}; font-weight: 600">{{t.src}}</span></div>
+</div>
+</sc-for>
+<div style="margin-top: auto; display: flex; flex-direction: column; gap: 8px; background: #ffffff; border-radius: 12px; padding: 14px">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #5f666d">CAMPAIGN DEADLINES</span>
+<div style="display: flex; justify-content: space-between"><span>[CREATOR A]</span><span style="color: #9a5b13; font-weight: 600">Sun</span></div>
+<div style="display: flex; justify-content: space-between"><span>[CREATOR B]</span><span style="color: #5f666d">Oct 20</span></div>
+</div>
+</aside>
+
+<main style="flex: 999 1 640px; min-width: 0; padding: 24px 28px; box-sizing: border-box; display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px">
+<h1 style="margin: 0; font-size: 30px; letter-spacing: -0.02em">Oct 5 to 11</h1>
+<div style="display: flex; gap: 4px">
+<button type="button" aria-label="Previous week" style="width: 36px; height: 36px; border: 1px solid #d5d8db; border-radius: 8px; background: #fff; display: grid; place-items: center"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#17191c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2L4 7l5 5"/></svg></button>
+<button type="button" aria-label="Next week" style="width: 36px; height: 36px; border: 1px solid #d5d8db; border-radius: 8px; background: #fff; display: grid; place-items: center"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#17191c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2l5 5-5 5"/></svg></button>
+</div>
+<div style="display: flex; align-items: center; gap: 10px; margin-left: auto">
+<span style="color: #5f666d">Goal: 1 post a day</span>
+<div aria-hidden="true" style="width: 120px; height: 8px; border-radius: 4px; background: #e4e6e8; overflow: hidden"><div style="width: 71%; height: 100%; background: #0f766e"></div></div>
+<strong>5 of 7</strong>
+</div>
+<span style="font-size: 11px; color: #5f666d; border: 1px solid #d5d8db; border-radius: 4px; padding: 2px 6px">SAMPLE DATA</span>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; background: #f1faf8; border: 1px solid #b9e3dc; border-radius: 12px; padding: 12px 16px">
+<span aria-hidden="true" style="width: 22px; height: 22px; border-radius: 50%; background: #0f766e; display: block; flex: none"></span>
+<span style="flex: 1 1 360px; min-width: 0; line-height: 1.45">Sunday was empty and Saturday had room, so Cue added your best leftover clips. The dashed cards are suggestions.</span>
+<button type="button" style="border: 0; background: #0f766e; color: #fff; border-radius: 10px; padding: 9px 16px; min-height: 40px; font-weight: 600">Accept both</button>
+<button type="button" style="border: 1px solid #d5d8db; background: #fff; border-radius: 10px; padding: 9px 16px; min-height: 40px">Ask Cue to redo</button>
+</div>
+
+<div style="overflow-x: auto">
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px; min-width: 900px">
+<sc-for list="{{days}}" as="d" hint-placeholder-count="7">
+<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0">
+<div style="display: flex; align-items: baseline; gap: 6px; padding-bottom: 6px; border-bottom: 2px solid {{d.line}}"><strong style="font-size: 15px">{{d.name}}</strong><span style="color: #5f666d">{{d.date}}</span></div>
+<sc-if value="{{d.live}}" hint-placeholder-val="{{false}}">
+<div style="background: #17191c; color: #fff; border-radius: 8px; padding: 8px 10px; font-size: 12px; display: flex; flex-direction: column; gap: 2px"><strong>Live</strong><span style="color: #c9ced3">{{d.liveTime}}</span></div>
+</sc-if>
+<sc-for list="{{d.posts}}" as="p" hint-placeholder-count="1">
+<div style="border-radius: 10px; padding: 10px; display: flex; flex-direction: column; gap: 6px; {{p.box}}">
+<span style="font-size: 12px; font-weight: 700; color: #0f766e">{{p.time}}</span>
+<strong style="font-size: 13px; line-height: 1.3">{{p.title}}</strong>
+<span style="font-size: 12px; color: #5f666d">{{p.where}}</span>
+<sc-if value="{{p.suggested}}" hint-placeholder-val="{{false}}">
+<span style="font-size: 12px; color: #0a4f4a; line-height: 1.35">{{p.why}}</span>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const solid = 'background: #ffffff; border: 1px solid #e4e6e8';
+    const dash = 'background: #f1faf8; border: 1.5px dashed #0f766e';
+    const done = 'background: #f6f7f7; border: 1px solid #e4e6e8; opacity: 0.7';
+    const post = (time, title, where, box, why) => ({ time, title, where, box, why: why || '', suggested: !!why });
+    const day = (name, date, posts, live, today) => ({ name, date, posts, live: !!live, liveTime: live || '', line: today ? '#0f766e' : '#e4e6e8' });
+    return {
+      tray: [
+        { title: 'Tournament story', src: 'Your stream', color: '#0f766e' },
+        { title: 'Outfit roast', src: 'Your stream', color: '#0f766e' },
+        { title: 'Clutch on match point', src: 'Campaign · [CREATOR A]', color: '#9a5b13' },
+        { title: 'Missed jump', src: 'Your stream', color: '#0f766e' }
+      ],
+      days: [
+        day('Mon', '5', [post('Posted', 'Jump scare at 2 am', '12.4k views', done)], '8 pm to 11 pm'),
+        day('Tue', '6', [post('Posted', 'The 40-minute puzzle', '3.1k views', done)]),
+        day('Wed', '7', [], '7 pm to 10:42 pm'),
+        day('Thu', '8', [post('Posted', 'Boss fight meltdown', '1.9k views so far', done)]),
+        day('Fri', '9', [post('6 pm', 'The 1v3 nobody saw coming', 'Shorts, TikTok', solid), post('8 pm', 'The cat takes over', 'Reels', solid)], '', true),
+        day('Sat', '10', [post('12 pm', 'Ranked win, finally', 'Shorts, TikTok', dash, 'Cue: your wins do well on weekends.'), post('6 pm', 'Patch notes rage', 'Shorts, TikTok', solid)]),
+        day('Sun', '11', [post('12 pm', 'Clutch on match point', 'TikTok · campaign', dash, 'Cue: [CREATOR A]\u2019s deadline is today.')], '4 pm to 8 pm')
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

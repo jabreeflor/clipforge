@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Autopilot control</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#5cc8ff}a:hover{color:#9be0ff}
+button{font:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="background: #0a0f1e; color: #e6ecf8; font-family: Sora, system-ui, sans-serif; font-size: 14px; min-height: 960px; padding: 24px 32px 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px">
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px">
+<strong style="font-size: 18px">clipforge <span style="color: #7d88a6; font-weight: 400">/ autopilot</span></strong>
+<div style="display: flex; align-items: center; gap: 10px; background: #0f2a22; border: 1px solid #1f5a45; border-radius: 999px; padding: 6px 14px 6px 8px">
+<span aria-hidden="true" style="width: 36px; height: 20px; border-radius: 10px; background: #3ddc97; position: relative; display: block"><span style="position: absolute; right: 2px; top: 2px; width: 16px; height: 16px; border-radius: 50%; background: #0a0f1e"></span></span>
+<span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #3ddc97; font-size: 13px">AUTOPILOT ON · 5 agents running</span>
+</div>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #7d88a6; border: 1px solid #26304a; border-radius: 4px; padding: 2px 6px">SAMPLE DATA</span>
+<button type="button" style="margin-left: auto; border: 1px solid #26304a; background: #111830; color: #e6ecf8; border-radius: 10px; padding: 10px 16px; min-height: 44px">Pause everything</button>
+</header>
+
+<section aria-label="Last 24 hours" style="display: flex; flex-wrap: wrap; gap: 12px">
+<div style="flex: 1 1 200px; min-width: 0; background: #111830; border: 1px solid #1c2440; border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 12px; color: #7d88a6">Clips drafted · 24h</span><strong style="font-family: 'JetBrains Mono', monospace; font-size: 34px">27</strong></div>
+<div style="flex: 1 1 200px; min-width: 0; background: #111830; border: 1px solid #1c2440; border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 12px; color: #7d88a6">Posted automatically</span><strong style="font-family: 'JetBrains Mono', monospace; font-size: 34px">6</strong></div>
+<div style="flex: 1 1 200px; min-width: 0; background: #111830; border: 1px solid #1c2440; border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 12px; color: #7d88a6">Waiting on you</span><strong style="font-family: 'JetBrains Mono', monospace; font-size: 34px; color: #ffcf5c">3</strong></div>
+<div style="flex: 1 1 200px; min-width: 0; background: #111830; border: 1px solid #1c2440; border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 12px; color: #7d88a6">Views · 24h</span><strong style="font-family: 'JetBrains Mono', monospace; font-size: 34px">18.4k</strong></div>
+<div style="flex: 1 1 200px; min-width: 0; background: #111830; border: 1px solid #1c2440; border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 12px; color: #7d88a6">Campaign earnings · 7d</span><strong style="font-family: 'JetBrains Mono', monospace; font-size: 34px; color: #3ddc97">$[AMOUNT]</strong></div>
+</section>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+<section aria-label="Agents" style="background: #111830; border: 1px solid #1c2440; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 12px">
+<strong style="font-size: 16px">Agents</strong>
+<sc-for list="{{agents}}" as="a" hint-placeholder-count="5">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 12px 14px; background: #0d1428; border-radius: 10px">
+<span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 50%; background: {{a.dot}}; display: block"></span>
+<strong style="flex: 0 0 96px">{{a.name}}</strong>
+<span style="flex: 1 1 260px; min-width: 0; color: #b5bfd6">{{a.task}}</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: {{a.dot}}">{{a.state}}</span>
+</div>
+</sc-for>
+</section>
+
+<section aria-label="Campaigns" style="background: #111830; border: 1px solid #1c2440; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; align-items: baseline"><strong style="font-size: 16px">Clipping campaigns</strong><a href="#browse">Browse campaigns</a></div>
+<div style="overflow-x: auto">
+<table style="width: 100%; min-width: 560px; border-collapse: collapse; font-size: 13px">
+<thead><tr style="color: #7d88a6; text-align: left"><th style="padding: 8px 6px; font-weight: 500">Creator (opted in)</th><th style="padding: 8px 6px; font-weight: 500">Rate</th><th style="padding: 8px 6px; font-weight: 500">Clips</th><th style="padding: 8px 6px; font-weight: 500">Views</th><th style="padding: 8px 6px; font-weight: 500">Status</th></tr></thead>
+<tbody>
+<sc-for list="{{campaigns}}" as="c" hint-placeholder-count="3">
+<tr style="border-top: 1px solid #1c2440"><td style="padding: 10px 6px; font-weight: 600">{{c.name}}</td><td style="padding: 10px 6px; font-family: 'JetBrains Mono', monospace">{{c.rate}}</td><td style="padding: 10px 6px; font-family: 'JetBrains Mono', monospace">{{c.clips}}</td><td style="padding: 10px 6px; font-family: 'JetBrains Mono', monospace">{{c.views}}</td><td style="padding: 10px 6px; color: {{c.color}}">{{c.status}}</td></tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+
+<div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+<section aria-label="Rules" style="background: #111830; border: 1px solid #1c2440; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+<strong style="font-size: 16px">Your rules</strong>
+<div style="background: #0d1428; border-radius: 10px; padding: 12px 14px; line-height: 1.5">Post up to <strong style="color: #5cc8ff">3</strong> of my clips a day, only if they score above <strong style="color: #5cc8ff">85</strong>.</div>
+<div style="background: #0d1428; border-radius: 10px; padding: 12px 14px; line-height: 1.5">Always <strong style="color: #ffcf5c">ask me</strong> before posting a campaign clip.</div>
+<div style="background: #0d1428; border-radius: 10px; padding: 12px 14px; line-height: 1.5">Never post anything with <strong style="color: #5cc8ff">personal info</strong> or <strong style="color: #5cc8ff">slurs</strong> in the transcript.</div>
+<div style="background: #0d1428; border-radius: 10px; padding: 12px 14px; line-height: 1.5">Post at <strong style="color: #5cc8ff">6 pm</strong> and <strong style="color: #5cc8ff">9 pm</strong> my time.</div>
+<button type="button" style="border: 1px dashed #26304a; background: transparent; color: #b5bfd6; border-radius: 10px; padding: 10px; min-height: 44px">Add a rule</button>
+</section>
+
+<section aria-label="Activity" style="background: #111830; border: 1px solid #1c2440; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+<strong style="font-size: 16px">Activity</strong>
+<sc-for list="{{log}}" as="l" hint-placeholder-count="7">
+<div style="display: flex; gap: 12px; font-size: 13px; line-height: 1.45"><span style="flex: 0 0 44px; font-family: 'JetBrains Mono', monospace; color: #7d88a6">{{l.t}}</span><span style="min-width: 0; color: #c9d1e4">{{l.msg}}</span></div>
+</sc-for>
+</section>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const run = '#3ddc97', wait = '#ffcf5c', idle = '#7d88a6';
+    return {
+      agents: [
+        { name: 'Watcher', task: 'Listening to your live stream · 2 markers dropped so far', state: 'LIVE', dot: run },
+        { name: 'Scout', task: 'Checking 3 campaign channels for new VODs', state: 'RUNNING', dot: run },
+        { name: 'Editor', task: 'Captioning "Clutch on match point" for [CREATOR A]', state: 'RUNNING', dot: run },
+        { name: 'Publisher', task: '3 campaign clips need your OK before posting', state: 'NEEDS YOU', dot: wait },
+        { name: 'Analyst', task: 'Next retune of your scoring tonight at 2 am', state: 'IDLE', dot: idle }
+      ],
+      campaigns: [
+        { name: '[CREATOR A]', rate: '$[RATE]/1k', clips: '14', views: '96.1k', status: 'Active', color: run },
+        { name: '[CREATOR B]', rate: '$[RATE]/1k', clips: '6', views: '22.8k', status: 'Active', color: run },
+        { name: '[CREATOR C]', rate: '$[RATE]/1k', clips: '2', views: '1.4k', status: 'Budget low', color: wait }
+      ],
+      log: [
+        { t: '21:42', msg: 'Watcher: you shouted and got a triple kill. Marker dropped.' },
+        { t: '21:30', msg: 'Publisher posted "One button, entire lobby gone" to Shorts and TikTok.' },
+        { t: '21:12', msg: 'Scout found a new 4h VOD from [CREATOR B].' },
+        { t: '20:58', msg: 'Editor skipped a clip: the transcript mentioned a home address.' },
+        { t: '20:40', msg: 'Analyst: rage clips get 2.1x your average watch time.' },
+        { t: '20:15', msg: '[CREATOR A] approved 4 of your campaign clips.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

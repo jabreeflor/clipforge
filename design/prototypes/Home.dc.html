@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Stream conversations</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;family=Instrument+Serif&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#0f766e}a:hover{color:#0a4f4a}
+button{font:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="background: #ffffff; color: #17191c; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 15px; min-height: 960px; display: flex; flex-wrap: wrap">
+
+<nav aria-label="Streams" style="flex: 1 1 240px; max-width: 270px; min-width: 0; background: #f6f7f7; border-right: 1px solid #e4e6e8; padding: 22px 14px; box-sizing: border-box; display: flex; flex-direction: column; gap: 4px">
+<div style="display: flex; align-items: center; gap: 10px; padding: 0 8px 18px">
+<span aria-hidden="true" style="width: 28px; height: 28px; border-radius: 50%; background: #0f766e; display: block"></span>
+<strong style="font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 700; letter-spacing: -0.02em; font-size: 26px">Cue</strong>
+</div>
+<button type="button" style="display: flex; align-items: center; gap: 8px; border: 1px solid #d5d8db; background: #ffffff; border-radius: 10px; padding: 10px 12px; min-height: 44px; font-weight: 600; margin-bottom: 14px"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#17191c" stroke-width="2" stroke-linecap="round"><path d="M7 2v10M2 7h10"/></svg>Ask Cue anything</button>
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #5f666d; padding: 6px 8px">YOUR STREAMS</span>
+<a href="#oct7" style="display: flex; flex-direction: column; gap: 2px; padding: 10px; border-radius: 10px; background: #ffffff; color: #17191c; text-decoration: none; box-shadow: 0 1px 2px rgba(23,25,28,0.08)"><strong>Oct 7 · Ranked grind</strong><span style="font-size: 13px; color: #0f766e; font-weight: 600">3 clips ready</span></a>
+<a href="#oct5" style="display: flex; flex-direction: column; gap: 2px; padding: 10px; border-radius: 10px; color: #17191c; text-decoration: none"><span>Oct 5 · Horror night</span><span style="font-size: 13px; color: #5f666d">5 posted</span></a>
+<a href="#oct3" style="display: flex; flex-direction: column; gap: 2px; padding: 10px; border-radius: 10px; color: #17191c; text-decoration: none"><span>Oct 3 · Just chatting</span><span style="font-size: 13px; color: #5f666d">2 posted</span></a>
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #5f666d; padding: 18px 8px 6px">CAMPAIGNS</span>
+<a href="#ca" style="display: flex; justify-content: space-between; padding: 10px; border-radius: 10px; color: #17191c; text-decoration: none"><span>[CREATOR A]</span><span style="font-size: 13px; color: #0f766e; font-weight: 600">2 new</span></a>
+<a href="#cb" style="display: flex; justify-content: space-between; padding: 10px; border-radius: 10px; color: #17191c; text-decoration: none"><span>[CREATOR B]</span><span style="font-size: 13px; color: #5f666d">up to date</span></a>
+<span style="margin-top: auto; font-size: 11px; color: #5f666d; border: 1px solid #d5d8db; border-radius: 4px; padding: 2px 6px; align-self: flex-start">SAMPLE DATA</span>
+</nav>
+
+<main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+<div style="flex: 1; padding: 36px 32px 20px; display: flex; flex-direction: column; gap: 26px; max-width: 780px; width: 100%; margin: 0 auto; box-sizing: border-box">
+
+<div style="display: flex; flex-direction: column; gap: 14px">
+<span style="font-size: 13px; color: #5f666d">Cue · this morning</span>
+<div style="border: 1px solid #e4e6e8; border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px">
+<h1 style="margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 700; letter-spacing: -0.02em; font-size: 38px; line-height: 1">Oct 7 · Ranked grind</h1>
+<span style="color: #5f666d">3h 42m · 7 moments · 3 ready to post</span>
+</div>
+<div aria-label="Stream energy, with moments marked" style="display: flex; align-items: flex-end; gap: 2px; height: 56px; background: #f6f7f7; border-radius: 10px; padding: 8px 10px; box-sizing: border-box">
+<sc-for list="{{energy}}" as="e" hint-placeholder-count="72">
+<span style="display: block; flex: 1; border-radius: 2px; {{e}}"></span>
+</sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 14px">
+<sc-for list="{{clips}}" as="c" hint-placeholder-count="3">
+<div style="flex: 1 1 180px; min-width: 0; display: flex; flex-direction: column; gap: 8px">
+<div style="aspect-ratio: 9 / 13; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; background: #17191c; position: relative">
+<div style="flex: 0 0 40%; background: #4b5157"></div>
+<div style="flex: 1; background: #2d3237"></div>
+<span style="position: absolute; left: 10px; right: 10px; top: 36%; text-align: center; color: #fff; font-weight: 700; font-size: 16px; line-height: 1.1; text-shadow: 0 2px 0 #000">{{c.caption}}</span>
+<span style="position: absolute; left: 8px; top: 8px; background: #d6f0ec; color: #0a4f4a; font-size: 12px; font-weight: 700; border-radius: 6px; padding: 2px 8px">{{c.tag}}</span>
+</div>
+<strong style="font-size: 15px; line-height: 1.3">{{c.title}}</strong>
+<span style="font-size: 13px; color: #5f666d">{{c.why}}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin: 0; line-height: 1.6">The 1v3 is your strongest clip this month. I'd post it tonight at 6 pm, then the rage clip tomorrow. The cat clip is cute but short, so it might work better as a Reel.</p>
+</div>
+</div>
+
+<div style="align-self: flex-end; max-width: 80%; background: #eef1f2; border-radius: 16px; padding: 12px 16px; line-height: 1.5">Do that. And post the cat one too, on Reels only.</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 13px; color: #5f666d">Cue</span>
+<p style="margin: 0; line-height: 1.6">Scheduled all three. You can see them on the right. I'll tell you how the 1v3 does by tomorrow morning.</p>
+</div>
+</div>
+
+<div style="padding: 0 32px 28px; max-width: 780px; width: 100%; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<button type="button" style="border: 1px solid #d5d8db; background: #fff; border-radius: 999px; padding: 7px 12px; min-height: 36px; font-size: 13px">Show the other 4 moments</button>
+<button type="button" style="border: 1px solid #d5d8db; background: #fff; border-radius: 999px; padding: 7px 12px; min-height: 36px; font-size: 13px">Edit the rage clip</button>
+<button type="button" style="border: 1px solid #d5d8db; background: #fff; border-radius: 999px; padding: 7px 12px; min-height: 36px; font-size: 13px">Check [CREATOR A]'s campaign</button>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; border: 1.5px solid #17191c; border-radius: 16px; padding: 8px 8px 8px 16px">
+<label for="home-msg" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Message Cue</label>
+<input id="home-msg" placeholder="Ask about this stream" style="flex: 1; min-width: 0; border: 0; outline: 0; font: inherit; background: transparent">
+<button type="button" aria-label="Talk to Cue" style="width: 40px; height: 40px; border: 1px solid #d5d8db; border-radius: 10px; background: #fff; display: grid; place-items: center"><svg width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="#17191c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="6" height="10" rx="3"/><path d="M3.5 9a5.5 5.5 0 0 0 11 0M9 14.5V16.5"/></svg></button>
+<button type="button" aria-label="Send" style="width: 40px; height: 40px; border: 0; border-radius: 10px; background: #0f766e; display: grid; place-items: center"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V3M3.5 7.5L8 3l4.5 4.5"/></svg></button>
+</div>
+</div>
+</main>
+
+<aside aria-label="Coming up" style="flex: 1 1 280px; max-width: 320px; min-width: 0; background: #f6f7f7; border-left: 1px solid #e4e6e8; padding: 28px 22px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #5f666d">SCHEDULED</span>
+<sc-for list="{{sched}}" as="s" hint-placeholder-count="3">
+<div style="display: flex; gap: 12px; background: #ffffff; border-radius: 12px; padding: 12px">
+<span style="flex: 0 0 64px; font-weight: 700; color: #0f766e; font-size: 14px; line-height: 1.3">{{s.when}}</span>
+<div style="display: flex; flex-direction: column; gap: 2px; min-width: 0"><strong style="font-size: 14px">{{s.title}}</strong><span style="font-size: 13px; color: #5f666d">{{s.where}}</span></div>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #5f666d">CUE IS WORKING ON</span>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 14px">Scanning [CREATOR A]'s new VOD</span><div style="height: 6px; border-radius: 3px; background: #e4e6e8; overflow: hidden"><div style="width: 62%; height: 100%; background: #0f766e"></div></div></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 14px">Learning from last week's views</span><div style="height: 6px; border-radius: 3px; background: #e4e6e8; overflow: hidden"><div style="width: 30%; height: 100%; background: #0f766e"></div></div></div>
+</div>
+<div style="background: #ffffff; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 13px; color: #5f666d">Views this week</span>
+<strong style="font-family: 'Instrument Sans', system-ui, sans-serif; font-weight: 700; letter-spacing: -0.02em; font-size: 40px; line-height: 1">41.2k</strong>
+<span style="font-size: 13px; color: #0f766e; font-weight: 600">$[EARNINGS] from campaigns</span>
+</div>
+</aside>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const marks = [14, 26, 31, 43, 52, 58, 66];
+    const energy = Array.from({ length: 72 }, (_, i) => {
+      let v = 0.18 + 0.2 * Math.abs(Math.sin(i * 0.8));
+      marks.forEach(m => { v += Math.max(0, 0.7 - Math.abs(i - m) * 0.3); });
+      v = Math.min(1, v);
+      const hit = marks.includes(i);
+      return 'height: ' + Math.round(10 + v * 90) + '%; background: ' + (hit ? '#0f766e' : '#c9d3d2');
+    });
+    return {
+      energy,
+      clips: [
+        { title: 'The 1v3 nobody saw coming', caption: 'HE DID NOT JUST DO THAT', tag: 'Best', why: 'You yelled, 3 kills, you hit the marker' },
+        { title: 'Patch notes rage', caption: 'WHO APPROVED THIS', tag: 'Ready', why: 'Voice spike and a quotable line' },
+        { title: 'The cat takes over', caption: 'GET OFF THE KEYBOARD', tag: 'Ready', why: 'You laughed for 8 seconds' }
+      ],
+      sched: [
+        { when: 'Tonight 6 pm', title: 'The 1v3 nobody saw coming', where: 'Shorts and TikTok' },
+        { when: 'Tonight 8 pm', title: 'The cat takes over', where: 'Reels' },
+        { when: 'Fri 6 pm', title: 'Patch notes rage', where: 'Shorts and TikTok' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

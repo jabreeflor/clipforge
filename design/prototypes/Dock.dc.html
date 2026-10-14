@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Live dock</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#ff8a6e}a:hover{color:#ffb19e}
+button{font:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="background: #1b1c20; color: #ebecef; font-family: Archivo, system-ui, sans-serif; font-size: 14px; min-height: 900px; display: flex; flex-wrap: wrap">
+
+<main style="flex: 999 1 640px; min-width: 0; padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="display: flex; align-items: center; gap: 6px; background: #3a1a17; color: #ff8a6e; font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 12px; border-radius: 6px; padding: 4px 10px"><span style="width: 8px; height: 8px; border-radius: 50%; background: #ff6b4a; display: block"></span>LIVE 1:12:44</span>
+<span style="color: #9a9ca6">Your streaming app, with Cue as a dock</span>
+<span style="margin-left: auto; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #9a9ca6; border: 1px solid #3a3b42; border-radius: 4px; padding: 2px 6px">SAMPLE</span>
+</div>
+<div style="position: relative; aspect-ratio: 16 / 9; max-width: 100%; border-radius: 8px; overflow: hidden; background: #262a33">
+<div style="position: absolute; inset: 0; display: grid; place-items: center; font-family: 'IBM Plex Mono', monospace; color: #6d7280">[GAMEPLAY]</div>
+<div style="position: absolute; right: 16px; bottom: 16px; width: 22%; aspect-ratio: 4 / 3; border-radius: 6px; background: #3a3f4a; display: grid; place-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #9a9ca6">[FACECAM]</div>
+<div style="position: absolute; left: 16px; top: 16px; display: flex; align-items: center; gap: 10px; background: rgba(20,21,24,0.9); border: 1px solid #ff6b4a; border-radius: 10px; padding: 10px 14px">
+<span aria-hidden="true" style="width: 26px; height: 26px; border-radius: 8px; background: #ff6b4a; color: #1b1c20; display: grid; place-items: center; font-weight: 800">C</span>
+<span><strong>Clipped the last 30s</strong><span style="color: #9a9ca6"> · only you see this</span></span>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<div style="flex: 1 1 200px; min-width: 0; background: #232428; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 12px; color: #9a9ca6">Scenes</span><span>Gameplay · Just chatting · BRB</span></div>
+<div style="flex: 1 1 200px; min-width: 0; background: #232428; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 12px; color: #9a9ca6">Sources</span><span>Game capture · Facecam · Mic</span></div>
+<div style="flex: 1 1 200px; min-width: 0; background: #232428; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 12px; color: #9a9ca6">Replay buffer</span><span style="color: #57d39a">On · 2 minutes, used by Cue</span></div>
+</div>
+</main>
+
+<aside aria-label="Cue dock" style="flex: 1 1 360px; max-width: 420px; min-width: 0; background: #232428; border-left: 1px solid #33343a; padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; align-items: center; gap: 10px">
+<span aria-hidden="true" style="width: 32px; height: 32px; border-radius: 10px; background: #ff6b4a; color: #1b1c20; display: grid; place-items: center; font-weight: 800">C</span>
+<strong style="font-size: 17px">Cue</strong>
+<span style="margin-left: auto; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #57d39a">LISTENING FOR "CUE"</span>
+</div>
+<div aria-hidden="true" style="display: flex; align-items: center; gap: 3px; height: 36px; background: #1b1c20; border-radius: 8px; padding: 0 12px">
+<sc-for list="{{wave}}" as="h" hint-placeholder-count="40">
+<span style="display: block; flex: 1; border-radius: 2px; background: #57d39a; {{h}}"></span>
+</sc-for>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; color: #9a9ca6; letter-spacing: 0.06em">VOICE LOG</span>
+<sc-for list="{{log}}" as="l" hint-placeholder-count="4">
+<div style="display: flex; flex-direction: column; gap: 3px; background: #1b1c20; border-radius: 8px; padding: 10px 12px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #9a9ca6">{{l.t}}</span>
+<span style="color: #ebecef">{{l.you}}</span>
+<span style="color: #ff8a6e">{{l.cue}}</span>
+</div>
+</sc-for>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; color: #9a9ca6; letter-spacing: 0.06em">THIS STREAM · 4 CLIPS</span>
+<div style="display: flex; justify-content: space-between"><span>The 1v3</span><span style="font-family: 'IBM Plex Mono', monospace; color: #9a9ca6">1:12:21</span></div>
+<div style="display: flex; justify-content: space-between"><span>Chat roasts the outfit</span><span style="font-family: 'IBM Plex Mono', monospace; color: #9a9ca6">0:58:40</span></div>
+<div style="display: flex; justify-content: space-between"><span>Missed jump, rage</span><span style="font-family: 'IBM Plex Mono', monospace; color: #9a9ca6">0:31:07</span></div>
+</div>
+
+<div style="margin-top: auto; display: flex; flex-direction: column; gap: 8px">
+<button type="button" style="min-height: 48px; border: 0; border-radius: 10px; background: #ff6b4a; color: #1b1c20; font-weight: 800">Clip last 30s <span style="font-family: 'IBM Plex Mono', monospace; font-weight: 500">F9</span></button>
+<div style="display: flex; gap: 8px">
+<button type="button" style="flex: 1; min-height: 44px; border: 1px solid #3a3b42; border-radius: 10px; background: transparent; color: #ebecef">Mark moment <span style="font-family: 'IBM Plex Mono', monospace; color: #9a9ca6">F10</span></button>
+<button type="button" style="flex: 1; min-height: 44px; border: 1px solid #3a3b42; border-radius: 10px; background: transparent; color: #ebecef">Mute Cue</button>
+</div>
+</div>
+</aside>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const wave = Array.from({ length: 40 }, (_, i) => 'height: ' + Math.round(14 + 70 * Math.abs(Math.sin(i * 0.9) * Math.cos(i * 0.37))) + '%; opacity: ' + (0.4 + 0.6 * Math.abs(Math.sin(i * 0.5))).toFixed(2));
+    return { wave, log: [
+      { t: '1:12:44', you: '"Cue, clip that."', cue: 'Clipped 1:12:14 to 1:12:44. Queued as "The 1v3".' },
+      { t: '0:58:52', you: '"Cue, mark that, chat is going off."', cue: 'Marked. I’ll check it after the stream.' },
+      { t: '0:31:20', you: '"Cue, how many clips so far?"', cue: 'Two, plus one I found on my own.' }
+    ] };
+  }
+}
+</script>
+</body>
+</html>

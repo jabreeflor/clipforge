@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Edit clip</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#0f766e}a:hover{color:#0a4f4a}
+button{font:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="background: #ffffff; color: #17191c; font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 14px; min-height: 1000px; display: flex; flex-direction: column">
+
+<header style="border-bottom: 1px solid #e4e6e8; padding: 14px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px">
+<strong style="font-size: 20px; letter-spacing: -0.02em">ClipForge</strong>
+<nav aria-label="Breadcrumb" style="display: flex; align-items: center; gap: 8px; color: #5f666d; min-width: 0">
+<a href="Pipeline.dc.html" style="text-decoration: none; font-weight: 600">Pipeline</a><span aria-hidden="true">/</span><span>Ready</span><span aria-hidden="true">/</span><strong style="color: #17191c">The 1v3 nobody saw coming</strong>
+</nav>
+<span style="font-size: 11px; color: #5f666d; border: 1px solid #d5d8db; border-radius: 4px; padding: 2px 6px">SAMPLE DATA</span>
+<div style="margin-left: auto; display: flex; gap: 8px">
+<button type="button" style="border: 1px solid #d5d8db; background: #fff; border-radius: 10px; padding: 0 16px; min-height: 40px">Export</button>
+<button type="button" style="border: 0; background: #0f766e; color: #fff; border-radius: 10px; padding: 0 16px; min-height: 40px; font-weight: 600">Schedule</button>
+</div>
+</header>
+
+<div style="flex: 1; display: flex; flex-wrap: wrap; min-height: 0">
+
+<section aria-label="Chat with Cue about this clip" style="flex: 1 1 380px; max-width: 460px; min-width: 0; border-right: 1px solid #e4e6e8; background: #f6f7f7; display: flex; flex-direction: column; box-sizing: border-box">
+<div style="padding: 16px 20px; border-bottom: 1px solid #e4e6e8; display: flex; align-items: center; gap: 10px; background: #ffffff">
+<span aria-hidden="true" style="width: 26px; height: 26px; border-radius: 50%; background: #0f766e; display: block; flex: none"></span>
+<div style="display: flex; flex-direction: column"><strong style="font-size: 15px">Cue</strong><span style="font-size: 12px; color: #5f666d">Working on this clip only</span></div>
+</div>
+<div role="log" aria-live="polite" style="flex: 1; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto">
+<sc-for list="{{msgs}}" as="m" hint-placeholder-count="5">
+<div style="display: flex; flex-direction: column; gap: 6px; {{m.wrap}}">
+<div style="max-width: 88%; border-radius: 14px; padding: 10px 14px; line-height: 1.45; {{m.bubble}}">{{m.text}}</div>
+<sc-if value="{{m.hasVer}}" hint-placeholder-val="{{false}}">
+<button type="button" onClick="{{m.open}}" style="align-self: flex-start; display: flex; align-items: center; gap: 8px; border-radius: 10px; padding: 6px 12px; min-height: 34px; font-size: 13px; {{m.verStyle}}"><strong>{{m.ver}}</strong><span>{{m.verNote}}</span></button>
+</sc-if>
+</div>
+</sc-for>
+</div>
+<div style="padding: 14px 20px 18px; border-top: 1px solid #e4e6e8; background: #ffffff; display: flex; flex-direction: column; gap: 10px">
+<sc-if value="{{hasNext}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<span style="font-size: 12px; color: #5f666d; width: 100%">Try</span>
+<sc-for list="{{chips}}" as="c" hint-placeholder-count="2">
+<button type="button" onClick="{{c.go}}" style="border: 1px solid #b9e3dc; background: #f1faf8; color: #0a4f4a; border-radius: 999px; padding: 6px 12px; min-height: 34px; font-size: 13px">{{c.label}}</button>
+</sc-for>
+</div>
+</sc-if>
+<div style="display: flex; gap: 8px; align-items: center; border: 1px solid #d5d8db; border-radius: 12px; padding: 6px 6px 6px 14px">
+<label for="clip-ask" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Ask Cue to change this clip</label>
+<input id="clip-ask" placeholder="Ask for a change, like &quot;zoom on my face at the end&quot;" style="flex: 1; min-width: 0; border: 0; outline: 0; font: inherit; background: transparent">
+<button type="button" onClick="{{send}}" style="border: 0; background: #17191c; color: #fff; border-radius: 8px; padding: 0 14px; min-height: 36px; font-weight: 600">Send</button>
+</div>
+</div>
+</section>
+
+<section aria-label="Clip timeline" style="flex: 999 1 640px; min-width: 0; padding: 22px 26px; box-sizing: border-box; display: flex; flex-direction: column; gap: 18px">
+
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start">
+<div aria-label="Preview" style="flex: 0 0 210px; height: 374px; border-radius: 14px; overflow: hidden; background: #17191c; display: flex; flex-direction: column; position: relative">
+<div style="flex: 0 0 38%; background: #4b5157; display: flex; align-items: flex-end; padding: 8px; box-sizing: border-box"><span style="font-size: 11px; color: #c9ced3">Facecam</span></div>
+<div style="flex: 1; background: #2d3237; display: flex; align-items: center; justify-content: center; {{cur.zoomBg}}"><span style="font-size: 11px; color: #c9ced3">{{cur.gameLabel}}</span></div>
+<div style="position: absolute; left: 10px; right: 10px; top: 46%; text-align: center; color: #ffffff; font-weight: 700; line-height: 1.1; text-shadow: 0 2px 6px rgba(0,0,0,0.6); {{cur.capStyle}}">{{cur.caption}}</div>
+<div style="position: absolute; left: 10px; bottom: 10px; font-size: 12px; color: #fff; background: rgba(0,0,0,0.5); border-radius: 6px; padding: 2px 6px">{{cur.len}}</div>
+</div>
+
+<div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<h1 style="margin: 0; font-size: 26px; letter-spacing: -0.02em">The 1v3 nobody saw coming</h1>
+<span style="color: #5f666d">From your stream on Oct 7 at 1:42:10 · 9:16 · Shorts, TikTok</span>
+<div role="tablist" aria-label="Versions" style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{versions}}" as="v" hint-placeholder-count="3">
+<button type="button" role="tab" onClick="{{v.pick}}" style="min-height: 36px; border-radius: 8px; padding: 0 14px; font-weight: 600; {{v.style}}">{{v.label}}</button>
+</sc-for>
+</div>
+<div style="background: #f1faf8; border: 1px solid #b9e3dc; border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #0a4f4a">WHAT {{cur.label}} CHANGED</span>
+<span style="line-height: 1.45">{{cur.change}}</span>
+</div>
+<div style="display: flex; gap: 22px; flex-wrap: wrap">
+<div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 12px; color: #5f666d">Length</span><strong style="font-size: 18px">{{cur.len}}</strong></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 12px; color: #5f666d">Cue's hook score</span><strong style="font-size: 18px">{{cur.score}}</strong></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 12px; color: #5f666d">Edits</span><strong style="font-size: 18px">{{cur.edits}}</strong></div>
+</div>
+</div>
+</div>
+
+<div style="border: 1px solid #e4e6e8; border-radius: 14px; padding: 14px 16px 18px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+<strong style="font-size: 15px">Timeline</strong>
+<span style="font-size: 12px; color: #5f666d">Showing {{cur.label}}. Gray stripes are cut. The teal outline is what {{cur.label}} changed.</span>
+</div>
+<div style="overflow-x: auto">
+<div style="display: flex; min-width: 760px">
+<div style="flex: 0 0 84px; display: flex; flex-direction: column">
+<div style="height: 24px"></div>
+<sc-for list="{{tracks}}" as="t" hint-placeholder-count="6">
+<div style="height: 46px; display: flex; align-items: center; font-size: 12px; font-weight: 600; color: #5f666d">{{t.name}}</div>
+</sc-for>
+</div>
+<div style="flex: 1; position: relative; min-width: 0">
+<div style="height: 24px; position: relative; border-bottom: 1px solid #e4e6e8">
+<sc-for list="{{ticks}}" as="k" hint-placeholder-count="9">
+<span style="position: absolute; top: 2px; font-size: 11px; color: #5f666d; {{k.pos}}">{{k.label}}</span>
+</sc-for>
+</div>
+<sc-for list="{{tracks}}" as="t" hint-placeholder-count="6">
+<div style="height: 46px; position: relative; border-bottom: 1px solid #f0f1f2">
+<sc-for list="{{t.blocks}}" as="b" hint-placeholder-count="2">
+<div style="position: absolute; top: 7px; height: 32px; border-radius: 6px; box-sizing: border-box; padding: 0 8px; display: flex; align-items: center; overflow: hidden; white-space: nowrap; font-size: 12px; {{b.style}}">{{b.label}}</div>
+</sc-for>
+</div>
+</sc-for>
+<sc-for list="{{cuts}}" as="x" hint-placeholder-count="1">
+<div style="position: absolute; top: 24px; bottom: 0; background: repeating-linear-gradient(135deg, rgba(95,102,109,0.32) 0 6px, rgba(255,255,255,0.55) 6px 12px); border-left: 1px solid #9aa1a8; border-right: 1px solid #9aa1a8; {{x.pos}}"></div>
+</sc-for>
+<div aria-hidden="true" style="position: absolute; top: 0; bottom: 0; width: 2px; background: #17191c; {{playhead}}"><span style="position: absolute; top: 0; left: -5px; width: 12px; height: 12px; border-radius: 2px; background: #17191c; display: block"></span></div>
+</div>
+</div>
+</div>
+</div>
+
+</section>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { step: 2, view: 2 }; }
+  renderVals() {
+    const SRC = 41;
+    const pct = (a, b) => 'left: ' + (a / SRC * 100).toFixed(2) + '%; width: ' + ((b - a) / SRC * 100).toFixed(2) + '%';
+    const step = this.state.step;
+    const view = Math.min(this.state.view, step);
+    const V = [
+      { label: 'v1', len: '0:41', score: '61', edits: '0', caption: 'he did not just do that', capStyle: 'font-size: 17px', gameLabel: 'Gameplay', zoomBg: '', cuts: [], zoom: null, music: null, capBig: false, hi: null,
+        change: 'Cue cut this from your stream when chat went wild. No edits yet.' },
+      { label: 'v2', len: '0:37', score: '72', edits: '1', caption: 'HE DID NOT JUST DO THAT', capStyle: 'font-size: 26px', gameLabel: 'Gameplay', zoomBg: '', cuts: [[0, 4]], zoom: null, music: null, capBig: true, hi: [0, 6],
+        change: 'Cut the 4 seconds of loadout talk at the start and made captions XL.' },
+      { label: 'v3', len: '0:37', score: '81', edits: '2', caption: '10 HP. 1v3.', capStyle: 'font-size: 28px', gameLabel: 'Gameplay, zoomed 1.6x', zoomBg: 'background: #3a4046', cuts: [[0, 4]], zoom: [22, 28], music: null, capBig: true, hi: [22, 28],
+        change: 'Zoomed in 1.6x on the last kill, from 0:22 to 0:28.' },
+      { label: 'v4', len: '0:32', score: '86', edits: '4', caption: '10 HP. 1v3.', capStyle: 'font-size: 28px', gameLabel: 'Gameplay, zoomed 1.6x', zoomBg: 'background: #3a4046', cuts: [[0, 4], [36, 41]], zoom: [22, 28], music: [20, 36], capBig: true, hi: [29, 41],
+        change: 'Ends on "Chat, did you see that?" and adds a hype track under the fight.' }
+    ];
+    const cur = V[view];
+    const asks = [
+      null,
+      { ask: 'Cut the slow start and make the captions bigger', reply: 'Done. It opens on the first shot now, and captions are XL.' },
+      { ask: 'Zoom in on the last kill', reply: 'Zoomed 1.6x from 0:22 to 0:28 so the headshot reads on a phone.' },
+      { ask: 'End it on my reaction and add some hype music', reply: 'Ended on "Chat, did you see that?" and put a low hype track under the fight. It is 0:32 now.' }
+    ];
+    const pickV = i => () => this.setState({ view: i });
+    const msgs = [{ text: 'I pulled this from Oct 7. Chat spammed for 40 seconds after it, so I think it is your best clip this week. What do you want to change?', cue: true, ver: 0, note: 'Original cut' }];
+    for (let i = 1; i <= step; i++) {
+      msgs.push({ text: asks[i].ask, cue: false });
+      msgs.push({ text: asks[i].reply, cue: true, ver: i, note: 'Show on timeline' });
+    }
+    const L = msgs.map(m => ({
+      text: m.text,
+      wrap: m.cue ? 'align-items: flex-start' : 'align-items: flex-end',
+      bubble: m.cue ? 'background: #ffffff; border: 1px solid #e4e6e8' : 'background: #17191c; color: #ffffff',
+      hasVer: m.cue,
+      ver: m.cue ? V[m.ver].label : '',
+      verNote: m.note || '',
+      open: m.cue ? pickV(m.ver) : () => {},
+      verStyle: m.cue && m.ver === view ? 'border: 1px solid #0f766e; background: #d6f0ec; color: #0a4f4a' : 'border: 1px solid #d5d8db; background: #ffffff; color: #17191c'
+    }));
+    const advance = () => { if (step < 3) this.setState({ step: step + 1, view: step + 1 }); };
+    const chips = step < 3 ? [{ label: asks[step + 1].ask, go: advance }, { label: step < 2 ? 'Try a different hook' : 'Make a 15 second version', go: advance }] : [];
+    const versions = V.slice(0, step + 1).map((x, i) => ({ label: x.label, pick: pickV(i),
+      style: i === view ? 'border: 1px solid #0f766e; background: #0f766e; color: #ffffff' : 'border: 1px solid #d5d8db; background: #ffffff; color: #17191c' }));
+    const hiOn = (a, b) => cur.hi && a < cur.hi[1] && b > cur.hi[0] && (b - a) < SRC;
+    const blk = (a, b, label, base) => ({ label, style: pct(a, b) + '; ' + base + (hiOn(a, b) ? '; outline: 2px solid #0f766e; outline-offset: 1px' : '') });
+    const vid = 'background: #2d3237; color: #ffffff';
+    const cam = 'background: #4b5157; color: #ffffff';
+    const cap = 'background: #d6f0ec; color: #0a4f4a; border: 1px solid #b9e3dc';
+    const fx = 'background: #fff4e5; color: #7a4a0e; border: 1px solid #f0d6ad';
+    const aud = 'background: #eef0f2; color: #3c4248';
+    const capText = cur.capBig ? ['HE DID NOT', 'JUST DO THAT', '10 HP', '1v3', 'CHAT DID YOU', 'SEE THAT'] : ['he did not', 'just do that', '10 hp', '1v3', 'chat did you', 'see that'];
+    const capT = [[1, 6], [6, 12], [14, 20], [22, 28], [30, 35], [35, 40]];
+    const fxBlocks = [];
+    if (view >= 1) fxBlocks.push(blk(4, 6, 'Captions XL', fx));
+    if (cur.zoom) fxBlocks.push(blk(cur.zoom[0], cur.zoom[1], 'Zoom 1.6x', fx));
+    const musicBlocks = cur.music ? [blk(cur.music[0], cur.music[1], 'Hype track, low', 'background: #ede9fe; color: #4c2d91; border: 1px solid #d4c9f7')] : [];
+    const tracks = [
+      { name: 'Gameplay', blocks: [blk(0, SRC, 'Oct 7 stream, 1:42:10', vid)] },
+      { name: 'Facecam', blocks: [blk(0, SRC, 'Top 38%', cam)] },
+      { name: 'Captions', blocks: capT.map((t, i) => blk(t[0], t[1], capText[i], cap)) },
+      { name: 'Effects', blocks: fxBlocks },
+      { name: 'Music', blocks: musicBlocks },
+      { name: 'Audio', blocks: [blk(0, SRC, 'Stream audio', aud)] }
+    ];
+    const ticks = [0, 5, 10, 15, 20, 25, 30, 35, 40].map(s => ({ label: '0:' + String(s).padStart(2, '0'), pos: 'left: calc(' + (s / SRC * 100).toFixed(2) + '% - ' + (s ? 12 : 0) + 'px)' }));
+    const cuts = cur.cuts.map(c => ({ pos: pct(c[0], c[1]) }));
+    return { msgs: L, chips, hasNext: step < 3, send: advance, versions, cur, tracks, ticks, cuts, playhead: 'left: ' + (25 / SRC * 100).toFixed(2) + '%' };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pocket chat</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#c4245a}a:hover{color:#8f1740}
+button{font:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #fbf7f8; color: #1d1a1c; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-size: 15px; display: flex; flex-direction: column; overflow: hidden">
+
+<header style="padding: 20px 18px 14px; display: flex; align-items: center; gap: 12px; background: #ffffff; border-bottom: 1px solid #efe6e9">
+<span aria-hidden="true" style="width: 40px; height: 40px; border-radius: 50%; background: #d42a63; color: #fff; display: grid; place-items: center; font-weight: 800">C</span>
+<div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+<strong style="font-size: 17px">Cue</strong>
+<span style="font-size: 12px; color: #6e6468; display: flex; align-items: center; gap: 6px"><span style="width: 7px; height: 7px; border-radius: 50%; background: #1f9d63; display: block"></span>Watching your stream</span>
+</div>
+<span style="margin-left: auto; font-size: 10px; color: #6e6468; border: 1px solid #e3d8dc; border-radius: 4px; padding: 2px 5px">SAMPLE</span>
+</header>
+
+<div style="flex: 1; padding: 16px 14px; display: flex; flex-direction: column; gap: 10px; overflow: hidden">
+<span style="align-self: center; font-size: 11px; color: #8a7f84">Tonight 10:41 PM</span>
+<div style="max-width: 80%; background: #ffffff; border-radius: 20px 20px 20px 6px; padding: 11px 14px; line-height: 1.45; box-shadow: 0 1px 2px rgba(29,26,28,0.06)">You just clutched a 1v3. I saved it. Want it posted after the stream?</div>
+<div style="align-self: flex-end; max-width: 80%; background: #d42a63; color: #ffffff; border-radius: 20px 20px 6px 20px; padding: 11px 14px; line-height: 1.45">yes!! and grab anything else funny</div>
+<span style="align-self: center; font-size: 11px; color: #8a7f84">Stream ended · 12:58 AM</span>
+<div style="max-width: 80%; background: #ffffff; border-radius: 20px 20px 20px 6px; padding: 11px 14px; line-height: 1.45; box-shadow: 0 1px 2px rgba(29,26,28,0.06)">Got 4 clips ready. Swipe through:</div>
+<div style="display: flex; gap: 8px; overflow: hidden; padding-left: 2px">
+<sc-for list="{{clips}}" as="c" hint-placeholder-count="3">
+<div style="flex: 0 0 118px; display: flex; flex-direction: column; gap: 6px">
+<div style="height: 196px; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; background: #1d1a1c; position: relative; outline: {{c.ring}}">
+<div style="flex: 0 0 40%; background: #4a4246"></div>
+<div style="flex: 1; background: #302a2d"></div>
+<span style="position: absolute; left: 6px; right: 6px; top: 38%; text-align: center; color: #fff; font-weight: 800; font-size: 11px; line-height: 1.15; text-shadow: 0 1px 0 #000">{{c.caption}}</span>
+<span style="position: absolute; right: 6px; bottom: 6px; font-size: 10px; color: #fff; background: rgba(0,0,0,0.55); border-radius: 4px; padding: 1px 5px">{{c.len}}</span>
+</div>
+<span style="font-size: 12px; font-weight: 700; line-height: 1.25">{{c.title}}</span>
+</div>
+</sc-for>
+</div>
+<div style="max-width: 80%; background: #ffffff; border-radius: 20px 20px 20px 6px; padding: 11px 14px; line-height: 1.45; box-shadow: 0 1px 2px rgba(29,26,28,0.06)">Also: a campaign you joined pays for clips from [CREATOR A]'s stream today. I found 2.</div>
+</div>
+
+<div style="padding: 10px 14px 18px; background: #ffffff; border-top: 1px solid #efe6e9; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; gap: 6px; overflow: hidden">
+<button type="button" style="flex: none; border: 1px solid #ecd2db; background: #fdf0f4; color: #a3164a; border-radius: 999px; padding: 8px 12px; min-height: 36px; font-size: 13px; font-weight: 700">Post all 4</button>
+<button type="button" style="flex: none; border: 1px solid #e3d8dc; background: #fff; color: #1d1a1c; border-radius: 999px; padding: 8px 12px; min-height: 36px; font-size: 13px">Only the 1v3</button>
+<button type="button" style="flex: none; border: 1px solid #e3d8dc; background: #fff; color: #1d1a1c; border-radius: 999px; padding: 8px 12px; min-height: 36px; font-size: 13px">Campaign clips</button>
+</div>
+<div style="display: flex; align-items: center; gap: 8px">
+<div style="flex: 1; min-width: 0; display: flex; align-items: center; background: #f4eef0; border-radius: 999px; padding: 4px 4px 4px 16px; min-height: 44px; box-sizing: border-box">
+<label for="pk-msg" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Message Cue</label>
+<input id="pk-msg" placeholder="Message Cue" style="flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit">
+</div>
+<button type="button" aria-label="Talk to Cue" style="flex: none; width: 44px; height: 44px; border-radius: 50%; border: 0; background: #d42a63; display: grid; place-items: center"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="6" height="10" rx="3"/><path d="M3.5 9a5.5 5.5 0 0 0 11 0M9 14.5V16.5"/></svg></button>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { clips: [
+      { title: 'The 1v3', caption: 'HE DID NOT JUST DO THAT', len: '0:38', ring: '3px solid #d42a63' },
+      { title: 'Patch rage', caption: 'WHO APPROVED THIS', len: '0:24', ring: 'none' },
+      { title: 'Cat cameo', caption: 'GET OFF THE KEYBOARD', len: '0:19', ring: 'none' }
+    ] };
+  }
+}
+</script>
+</body>
+</html>
