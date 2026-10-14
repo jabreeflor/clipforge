@@ -1,13 +1,18 @@
 import { query } from "@anthropic-ai/claude-agent-sdk";
 import type { CueEvent, CueRequest } from "../../shared/types.ts";
 import type { ClipStore } from "../store.ts";
+import { CUE_MODELS, CUE_TEAM } from "./team.ts";
 import { CUE_SERVER_NAME, CUE_TOOL_NAMES, createCueTools } from "./tools.ts";
 
 const CUE_SYSTEM_PROMPT = `You are Cue, the clipping agent inside ClipForge.
 
-ClipForge clips a streamer's own streams and runs clipping for opt-in creator campaigns. You work the pipeline board (Found, Ready, Scheduled, Posted) and edit individual clips for the creator.
+ClipForge clips a streamer's own streams and runs clipping for opt-in creator campaigns. You run the pipeline board (Found, Ready, Scheduled, Posted) and edit individual clips for the creator.
 
-Use the clipforge tools to read and change clips. Never invent clip ids; look them up. When you edit a clip, make one new version per request and describe the change in one plain sentence. Campaign clips follow that creator's rules, so check the campaign before posting.
+You orchestrate; your team does the work. Delegate with the Agent tool and wait for each result (run_in_background: false):
+- clip-reader looks things up. Send every read to it, and never invent clip ids.
+- clip-editor makes a new version of one clip. One version per request.
+- board-operator moves, schedules, skips, and clears suggestions.
+Run independent lookups in parallel. Campaign clips follow that creator's rules, so have clip-reader check the campaign before anything posts.
 
 Reply like a teammate in chat: short, plain sentences, no markdown headings, and say what you changed.`;
 
@@ -26,14 +31,15 @@ export async function* runCue(store: ClipStore, request: CueRequest): AsyncGener
   const stream = query({
     prompt: request.prompt,
     options: {
-      model: process.env.CUE_MODEL ?? "claude-opus-5-5",
+      model: CUE_MODELS.orchestrator,
       systemPrompt: CUE_SYSTEM_PROMPT + focus,
-      tools: [],
+      tools: ["Agent"],
+      agents: CUE_TEAM,
       mcpServers: { [CUE_SERVER_NAME]: createCueTools(store) },
-      allowedTools: CUE_TOOL_NAMES,
+      allowedTools: ["Agent", ...CUE_TOOL_NAMES],
       permissionMode: "dontAsk",
       settingSources: [],
-      maxTurns: 12,
+      maxTurns: 16,
       resume: request.sessionId,
     },
   });
@@ -43,9 +49,10 @@ export async function* runCue(store: ClipStore, request: CueRequest): AsyncGener
       if (message.type === "system" && message.subtype === "init") {
         yield { type: "session", sessionId: message.session_id };
       } else if (message.type === "assistant") {
+        const fromTeam = message.parent_tool_use_id !== null;
         for (const block of message.message.content) {
-          if (block.type === "text" && block.text.trim()) yield { type: "text", text: block.text };
-          if (block.type === "tool_use") yield { type: "tool", name: block.name.replace(`mcp__${CUE_SERVER_NAME}__`, ""), input: block.input };
+          if (block.type === "text" && block.text.trim() && !fromTeam) yield { type: "text", text: block.text };
+          if (block.type === "tool_use") yield { type: "tool", name: toolLabel(block.name, block.input), input: block.input };
         }
       } else if (message.type === "result") {
         if (message.subtype === "success") yield { type: "done", costUsd: message.total_cost_usd };
@@ -55,4 +62,12 @@ export async function* runCue(store: ClipStore, request: CueRequest): AsyncGener
   } catch (err) {
     yield { type: "error", message: err instanceof Error ? err.message : String(err) };
   }
+}
+
+function toolLabel(name: string, input: unknown): string {
+  if (name === "Agent") {
+    const type = (input as { subagent_type?: string } | null)?.subagent_type;
+    return type ? `${type} (${CUE_TEAM[type]?.model ?? "inherit"})` : "agent";
+  }
+  return name.replace(`mcp__${CUE_SERVER_NAME}__`, "");
 }

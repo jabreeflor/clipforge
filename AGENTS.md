@@ -35,7 +35,16 @@ Run `npm run check`. It typechecks, runs the comment check, and runs the tests. 
 
 ## Layout
 
-- `src/server/cue/` holds Cue: `agent.ts` runs the Claude Agent SDK `query()` loop, `tools.ts` defines the in-process MCP tools Cue uses to read and change clips.
+- `src/server/cue/` holds Cue: `agent.ts` runs the Claude Agent SDK `query()` loop, `team.ts` defines Cue's subagents, and `tools.ts` defines the in-process MCP tools they use to read and change clips.
+
+## Cue's model roles
+
+Opus orchestrates, Sonnet and Haiku implement, and Haiku does the reads. Keep new agent work in that split.
+
+- Cue itself runs on Opus (`CUE_ORCHESTRATOR_MODEL`). It plans and delegates through the Agent tool, and does not call clip tools itself.
+- `clip-editor` runs on Sonnet (`CUE_IMPLEMENTER_MODEL`) and makes new clip versions.
+- `board-operator` runs on Haiku (`CUE_FAST_MODEL`) and moves, schedules, and skips clips.
+- `clip-reader` runs on Haiku and handles every lookup.
 - `src/server/store.ts` is the clip store, seeded with sample data. `src/server/app.ts` is the HTTP API, with Cue streamed over server-sent events at `POST /api/cue`.
 - `src/web/` is the React app: `pages/Pipeline.tsx`, `pages/ClipEditor.tsx`, `pages/Planner.tsx`.
 - `src/shared/` holds types and helpers used on both sides.
